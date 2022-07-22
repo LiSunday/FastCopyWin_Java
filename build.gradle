@@ -9,7 +9,8 @@ group 'com.example'
 version '1.0-SNAPSHOT'
 
 repositories {
-    mavenCentral()
+    maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+    maven{ url 'https://maven.aliyun.com/nexus/content/repositories/jcenter'}
 }
 
 ext {
@@ -46,6 +47,8 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+
+    implementation('com.github.kwhat:jnativehook:2.2.2')
 }
 
 test {
