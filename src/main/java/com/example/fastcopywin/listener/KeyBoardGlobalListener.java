@@ -5,15 +5,13 @@ import com.github.kwhat.jnativehook.NativeHookException;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
 
-import java.io.Closeable;
-import java.io.IOException;
 import java.util.EnumMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Queue;
 
-public class KeyBoardGlobalListener implements NativeKeyListener, Closeable {
+public class KeyBoardGlobalListener implements NativeKeyListener {
 
   private static KeyBoardGlobalListener keyBoardGlobalListener;
 
@@ -36,21 +34,6 @@ public class KeyBoardGlobalListener implements NativeKeyListener, Closeable {
       }
     }
     return keyBoardGlobalListener;
-  }
-
-  /**
-   *
-   * @return 是否销毁成功
-   */
-  public static boolean destroy() {
-    try {
-      GlobalScreen.unregisterNativeHook();
-    } catch (NativeHookException nativeHookException) {
-      nativeHookException.printStackTrace();
-      return false;
-    }
-    keyBoardGlobalListener = null;
-    return true;
   }
 
   private KeyBoardGlobalListener() {
@@ -94,11 +77,9 @@ public class KeyBoardGlobalListener implements NativeKeyListener, Closeable {
 
   public static void main(String[] args) {
     KeyBoardGlobalListener singleInstance = KeyBoardGlobalListener.getSingleInstance();
-  }
-
-  @Override
-  public void close() throws IOException {
-
+    singleInstance.registerCopyAfterReturnEvent(() -> {
+      System.out.println("组合键触发成功！！！");
+    });
   }
 
   enum KeyEnum {
