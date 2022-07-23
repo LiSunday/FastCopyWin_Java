@@ -6,7 +6,7 @@ import javafx.scene.input.Clipboard;
 
 public class MainController {
   @FXML
-  private Label welcomeText;
+  public Label welcomeText;
 
   @FXML
   protected void onHelloButtonClick() {
