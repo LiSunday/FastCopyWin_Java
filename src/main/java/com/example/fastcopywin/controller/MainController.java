@@ -1,16 +1,20 @@
 package com.example.fastcopywin.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.input.Clipboard;
+import javafx.fxml.Initializable;
+import javafx.scene.control.ListView;
 
-public class MainController {
-  @FXML
-  public Label welcomeText;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class MainController implements Initializable {
 
   @FXML
-  protected void onHelloButtonClick() {
-    Clipboard clipboard = Clipboard.getSystemClipboard();
-    welcomeText.setText(clipboard.getString());
+  public ListView<String> dataList;
+
+
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+    // TODO 先保留该函数后面有需要再在这拓展
   }
 }

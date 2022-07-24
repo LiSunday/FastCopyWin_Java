@@ -43,3 +43,6 @@ bin/
 
 ### ide ###
 .idea
+
+### project runing data
+*.txt
