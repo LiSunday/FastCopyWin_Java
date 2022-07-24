@@ -54,10 +54,15 @@ public class KeyBoardGlobalListener implements NativeKeyListener {
     keyListenerAfterReturnEventMap.computeIfAbsent(String.format("%d_%d", preKeyCode, postKeyCode), k -> new ArrayList<>()).add(listenerOperation);
   }
 
+  public void registerCustomKeyAfterReturnEvent(int code, ListenerOperation listenerOperation) {
+    keyListenerAfterReturnEventMap.computeIfAbsent(String.valueOf(code), k -> new ArrayList<>()).add(listenerOperation);
+  }
+
   public void nativeKeyPressed(NativeKeyEvent e) {
     // 收集触发的组合键
     // TODO 后续可以支持 N 组合键
     keyCombinationQueue.add(String.format("%d_%d", currentKeyCode, e.getKeyCode()));
+    keyCombinationQueue.add(String.valueOf(e.getKeyCode()));
     currentKeyCode = e.getKeyCode();
   }
 
