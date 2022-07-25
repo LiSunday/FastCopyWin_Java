@@ -1,6 +1,5 @@
 package com.example.fastcopywin;
 
-import com.example.fastcopywin.config.SpringConfig;
 import com.example.fastcopywin.controller.MainController;
 import com.example.fastcopywin.listener.KeyBoardGlobalListener;
 import com.example.fastcopywin.listener.MouseInputGlobalListener;
@@ -18,8 +17,6 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.DataFormat;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -27,8 +24,6 @@ import java.util.Map;
 import java.util.Objects;
 
 public class MainApplication extends Application {
-
-  public static ApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
 
   @Override
   public void start(Stage stage) throws IOException {
@@ -62,7 +57,7 @@ public class MainApplication extends Application {
       stage.toFront();
       stage.setAlwaysOnTop(true);
       // 刷新数据 & 强制焦点在列表第一项
-      controller.dataList.setItems(FXCollections.observableList(context.getBean(RecordDataService.class).getRecordDataTopN(10)));
+      controller.dataList.setItems(FXCollections.observableList(Main.context.getBean(RecordDataService.class).getRecordDataTopN(10)));
       controller.dataList.getFocusModel().focus(0);
     }));
     // 注册鼠标回调事件 隐藏菜单栏
@@ -76,7 +71,7 @@ public class MainApplication extends Application {
       Platform.runLater(() -> {
         String data = clipboard.getString();
         if (StringUtils.isNotBlank(data)) {
-          context.getBean(RecordDataService.class).saveRecord(data);
+          Main.context.getBean(RecordDataService.class).saveRecord(data);
         }
       });
     });
@@ -87,7 +82,7 @@ public class MainApplication extends Application {
         Map<DataFormat, Object> dataMap = new HashMap<>();
         dataMap.put(DataFormat.PLAIN_TEXT, data);
         clipboard.setContent(dataMap);
-        context.getBean(RecordDataService.class).saveRecord(data);
+        Main.context.getBean(RecordDataService.class).saveRecord(data);
         stage.hide();
       }
     }));

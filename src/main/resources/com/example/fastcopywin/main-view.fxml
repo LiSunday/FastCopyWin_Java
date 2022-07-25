@@ -3,6 +3,6 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" prefHeight="308.0" prefWidth="222.0" spacing="20.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fastcopywin.controller.MainController">
+<VBox alignment="CENTER" prefHeight="308.0" prefWidth="222.0" spacing="20.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fastcopywin.controller.MainController">
    <ListView fx:id="dataList" prefHeight="736.0" prefWidth="555.0" />
 </VBox>
