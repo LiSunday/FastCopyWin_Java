@@ -3,7 +3,9 @@ package com.example.fastcopywin.listener;
 import com.github.kwhat.jnativehook.GlobalScreen;
 import com.github.kwhat.jnativehook.mouse.NativeMouseEvent;
 import com.github.kwhat.jnativehook.mouse.NativeMouseInputListener;
+import org.apache.commons.lang3.tuple.Pair;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,8 +19,7 @@ public class MouseInputGlobalListener implements NativeMouseInputListener {
 
   private Map<String, List<ListenerOperation>> listenersMap;
 
-  private int mouseX;
-  private int mouseY;
+  private volatile Point point;
 
   private MouseInputGlobalListener() {
     // 添加监听项
@@ -27,21 +28,16 @@ public class MouseInputGlobalListener implements NativeMouseInputListener {
     listenersMap = new HashMap<>();
   }
 
-  public static MouseInputGlobalListener getSingleInstance() {
+  public synchronized static MouseInputGlobalListener getSingleInstance() {
     if (mouseInputGlobalListener == null) {
-      synchronized (MouseInputGlobalListener.class) {
-        if (mouseInputGlobalListener == null) {
-          mouseInputGlobalListener = new MouseInputGlobalListener();
-        }
-      }
+      mouseInputGlobalListener = new MouseInputGlobalListener();
     }
     return mouseInputGlobalListener;
   }
 
   @Override
   public void nativeMouseMoved(NativeMouseEvent e) {
-    this.mouseX = e.getX();
-    this.mouseY = e.getY();
+    this.point = e.getPoint();
   }
 
   @Override
@@ -53,17 +49,7 @@ public class MouseInputGlobalListener implements NativeMouseInputListener {
     listenersMap.computeIfAbsent(String.valueOf(code), k -> new ArrayList<>()).add(listenerOperation);
   }
 
-  public int getMouseX() {
-    return mouseX;
-  }
-
-  public int getMouseY() {
-    return mouseY;
-  }
-
-  public static void main(String[] args) {
-    MouseInputGlobalListener singleInstance = getSingleInstance();
-    System.out.println(singleInstance.getMouseX());
-    System.out.println(singleInstance.getMouseY());
+  public Point getPoint() {
+    return point == null ? new Point(0, 0) : point;
   }
 }

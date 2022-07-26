@@ -15,9 +15,11 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.DataFormat;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
 
+import java.awt.Point;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +31,11 @@ public class MainApplication extends Application {
   public void start(Stage stage) throws IOException {
     // 设置隐藏窗口后 不终止 fx 线程
     Platform.setImplicitExit(false);
+
+    Screen primary = Screen.getPrimary();
+    // 屏幕缩放比例
+    double outPutScaleX = primary.getOutputScaleX();
+    double outputScaleY = primary.getOutputScaleY();
 
     // 主界面
     FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("main-view.fxml"));
@@ -51,18 +58,21 @@ public class MainApplication extends Application {
 
     // 注册键盘回调事件 显示菜单栏
     keyBoardGlobalListener.registerCustomKeyAfterReturnEvent(29, NativeKeyEvent.VC_M, () -> Platform.runLater(() -> {
-      stage.setX(mouseInputGlobalListener.getMouseX());
-      stage.setY(mouseInputGlobalListener.getMouseY());
+      Point point = mouseInputGlobalListener.getPoint();
+      // 适配开启了缩放的显示器
+      stage.setX(point.getX() / outPutScaleX);
+      stage.setY(point.getY() / outputScaleY);
       stage.show();
       stage.toFront();
-      stage.setAlwaysOnTop(true);
-      // 刷新数据 & 强制焦点在列表第一项
+
+      // 刷新数据 & 强制将焦点放在第一项
+      // TODO [性能优化] 没有必要更新全量数据 也没有必要从文件获取全量数据 不过暂时没有瓶颈 先不管
       controller.dataList.setItems(FXCollections.observableList(Main.context.getBean(RecordDataService.class).getRecordDataTopN(10)));
-      controller.dataList.getFocusModel().focus(0);
+      controller.dataList.getSelectionModel().selectFirst();
     }));
     // 注册鼠标回调事件 隐藏菜单栏
     mouseInputGlobalListener.registerCustomMouseKeyAfterReturnEvent(1, () -> Platform.runLater(() -> {
-      if (scene.getFocusOwner() != null && (!scene.getFocusOwner().isFocused())) {
+      if (scene.getRoot().isVisible() && !scene.getRoot().isHover()) {
         stage.hide();
       }
     }));
