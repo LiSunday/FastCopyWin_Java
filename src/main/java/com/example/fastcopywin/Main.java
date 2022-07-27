@@ -9,7 +9,6 @@ public class Main {
 
   public static ApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
   public static void main(String[] args) {
-
     Application.launch(MainApplication.class);
   }
 }
