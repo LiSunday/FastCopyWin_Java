@@ -43,6 +43,7 @@ public class MainApplication extends Application {
     stage.setTitle("FastCopyWin");
 
     stage.setScene(scene);
+    stage.setAlwaysOnTop(true);
     stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/red_heart.png"))));
 
     MainController controller = fxmlLoader.getController();
@@ -63,7 +64,7 @@ public class MainApplication extends Application {
       stage.setX(point.getX() / outPutScaleX);
       stage.setY(point.getY() / outputScaleY);
       stage.show();
-      stage.toFront();
+      stage.requestFocus();
 
       // 刷新数据 & 强制将焦点放在第一项
       // TODO [性能优化] 没有必要更新全量数据 也没有必要从文件获取全量数据 不过暂时没有瓶颈 先不管
