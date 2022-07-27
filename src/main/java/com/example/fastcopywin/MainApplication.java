@@ -15,11 +15,11 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.DataFormat;
-import javafx.stage.Screen;
+import javafx.scene.input.MouseButton;
+import javafx.scene.robot.Robot;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
 
-import java.awt.Point;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,10 +32,7 @@ public class MainApplication extends Application {
     // 设置隐藏窗口后 不终止 fx 线程
     Platform.setImplicitExit(false);
 
-    Screen primary = Screen.getPrimary();
-    // 屏幕缩放比例
-    double outPutScaleX = primary.getOutputScaleX();
-    double outputScaleY = primary.getOutputScaleY();
+    Robot robot = new Robot();
 
     // 主界面
     FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("main-view.fxml"));
@@ -59,10 +56,10 @@ public class MainApplication extends Application {
 
     // 注册键盘回调事件 显示菜单栏
     keyBoardGlobalListener.registerCustomKeyAfterReturnEvent(29, NativeKeyEvent.VC_M, () -> Platform.runLater(() -> {
-      Point point = mouseInputGlobalListener.getPoint();
-      // 适配开启了缩放的显示器
-      stage.setX(point.getX() / outPutScaleX);
-      stage.setY(point.getY() / outputScaleY);
+      double x = robot.getMouseX();
+      double y = robot.getMouseY();
+      stage.setX(robot.getMouseX());
+      stage.setY(robot.getMouseY());
       stage.show();
       stage.requestFocus();
 
@@ -70,10 +67,14 @@ public class MainApplication extends Application {
       // TODO [性能优化] 没有必要更新全量数据 也没有必要从文件获取全量数据 不过暂时没有瓶颈 先不管
       controller.dataList.setItems(FXCollections.observableList(Main.context.getBean(RecordDataService.class).getRecordDataTopN(10)));
       controller.dataList.getSelectionModel().selectFirst();
+      // TODO 非常 hack 的写法 用来对付有些电脑 requestFocus 不能正确获取到焦点
+      robot.mouseMove(x + 5, y + 5);
+      robot.mouseClick(MouseButton.PRIMARY);
+      robot.mouseMove(x, y);
     }));
     // 注册鼠标回调事件 隐藏菜单栏
     mouseInputGlobalListener.registerCustomMouseKeyAfterReturnEvent(1, () -> Platform.runLater(() -> {
-      if (scene.getRoot().isVisible() && !scene.getRoot().isHover()) {
+      if (scene.getRoot().isVisible() && !stage.isFocused()) {
         stage.hide();
       }
     }));
