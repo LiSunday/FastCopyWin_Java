@@ -23,7 +23,7 @@ public class MouseInputGlobalListener implements NativeMouseInputListener {
     listenersMap = new HashMap<>();
   }
 
-  public synchronized static MouseInputGlobalListener getSingleInstance() {
+  public static synchronized  MouseInputGlobalListener getSingleInstance() {
     if (mouseInputGlobalListener == null) {
       mouseInputGlobalListener = new MouseInputGlobalListener();
     }

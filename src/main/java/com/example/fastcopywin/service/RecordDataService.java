@@ -11,9 +11,11 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 public class RecordDataService {
+  private static Logger log = Logger.getLogger(RecordDataService.class.toString());
 
   private String fileName = "fast_copy_win_data_sundayli.txt";
 
@@ -32,7 +34,7 @@ public class RecordDataService {
     try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)))) {
       reader.lines().forEach(builder::append);
     } catch (Exception e) {
-      System.out.println("get data fail.");
+      log.warning("get data fail.");
     }
     return builder.toString();
   }
@@ -41,7 +43,7 @@ public class RecordDataService {
     try(BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(getCurrentRunningPath(), true)))) {
       writer.write(data + "___");
     } catch (Exception e) {
-      System.out.println("save fail.");
+      log.warning("save fail.");
     }
   }
 

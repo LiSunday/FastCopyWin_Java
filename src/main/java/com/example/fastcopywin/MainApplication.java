@@ -24,8 +24,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 public class MainApplication extends Application {
+  private static Logger log = Logger.getLogger(MainApplication.class.toString());
 
   @Override
   public void start(Stage stage) throws IOException {
@@ -65,7 +67,7 @@ public class MainApplication extends Application {
 
       // 刷新数据 & 强制将焦点放在第一项
       // TODO [性能优化] 没有必要更新全量数据 也没有必要从文件获取全量数据 不过暂时没有瓶颈 先不管
-      controller.dataList.setItems(FXCollections.observableList(Main.context.getBean(RecordDataService.class).getRecordDataTopN(10)));
+      controller.dataList.setItems(FXCollections.observableList(Main.SPRING_CONTEXT.getBean(RecordDataService.class).getRecordDataTopN(10)));
       controller.dataList.getSelectionModel().selectFirst();
       // TODO 非常 hack 的写法 用来对付有些电脑 requestFocus 不能正确获取到焦点
       robot.mouseMove(x + 5, y + 5);
@@ -79,14 +81,12 @@ public class MainApplication extends Application {
       }
     }));
     // 注册键盘回调事件 将复制的东西持久化保存一下
-    keyBoardGlobalListener.registerCustomKeyAfterReturnEvent(29, NativeKeyEvent.VC_C, () -> {
-      Platform.runLater(() -> {
-        String data = clipboard.getString();
-        if (StringUtils.isNotBlank(data)) {
-          Main.context.getBean(RecordDataService.class).saveRecord(data);
-        }
-      });
-    });
+    keyBoardGlobalListener.registerCustomKeyAfterReturnEvent(29, NativeKeyEvent.VC_C, () -> Platform.runLater(() -> {
+      String data = clipboard.getString();
+      if (StringUtils.isNotBlank(data)) {
+        Main.SPRING_CONTEXT.getBean(RecordDataService.class).saveRecord(data);
+      }
+    }));
     // 注册键盘回调事件 将选中的内容放入系统剪切板
     keyBoardGlobalListener.registerCustomKeyAfterReturnEvent(NativeKeyEvent.VC_ENTER, () -> Platform.runLater(() -> {
       if (controller.dataList.isFocused()) {
@@ -94,7 +94,7 @@ public class MainApplication extends Application {
         Map<DataFormat, Object> dataMap = new HashMap<>();
         dataMap.put(DataFormat.PLAIN_TEXT, data);
         clipboard.setContent(dataMap);
-        Main.context.getBean(RecordDataService.class).saveRecord(data);
+        Main.SPRING_CONTEXT.getBean(RecordDataService.class).saveRecord(data);
         stage.hide();
       }
     }));
@@ -106,9 +106,8 @@ public class MainApplication extends Application {
       GlobalScreen.registerNativeHook();
     }
     catch (NativeHookException ex) {
-      System.err.println("There was a problem registering the native hook.");
-      System.err.println(ex.getMessage());
-
+      log.severe("There was a problem registering the native hook.");
+      log.severe(ex.getMessage());
       System.exit(1);
     }
   }

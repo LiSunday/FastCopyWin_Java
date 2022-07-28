@@ -26,13 +26,9 @@ public class KeyBoardGlobalListener implements NativeKeyListener {
    * 获取单例全局键盘监听
    * @return
    */
-  public static KeyBoardGlobalListener getSingleInstance() {
+  public static synchronized KeyBoardGlobalListener getSingleInstance() {
     if (keyBoardGlobalListener == null) {
-      synchronized (KeyBoardGlobalListener.class) {
-        if (keyBoardGlobalListener == null) {
-          keyBoardGlobalListener = new KeyBoardGlobalListener();
-        }
-      }
+      keyBoardGlobalListener = new KeyBoardGlobalListener();
     }
     return keyBoardGlobalListener;
   }
@@ -58,6 +54,7 @@ public class KeyBoardGlobalListener implements NativeKeyListener {
     keyListenerAfterReturnEventMap.computeIfAbsent(String.valueOf(code), k -> new ArrayList<>()).add(listenerOperation);
   }
 
+  @Override
   public void nativeKeyPressed(NativeKeyEvent e) {
     // 收集触发的组合键
     // TODO 后续可以支持 N 组合键
@@ -66,18 +63,12 @@ public class KeyBoardGlobalListener implements NativeKeyListener {
     currentKeyCode = e.getKeyCode();
   }
 
+  @Override
   public void nativeKeyReleased(NativeKeyEvent e) {
     // 处理所有触发的组合键事件
     while (!keyCombinationQueue.isEmpty()) {
       String key = keyCombinationQueue.poll();
       Optional.ofNullable(keyListenerAfterReturnEventMap.get(key)).ifPresent(list -> list.forEach(ListenerOperation::operation));
     }
-  }
-
-  public static void main(String[] args) {
-    KeyBoardGlobalListener singleInstance = KeyBoardGlobalListener.getSingleInstance();
-    singleInstance.registerCopyAfterReturnEvent(() -> {
-      System.out.println("组合键触发成功！！！");
-    });
   }
 }
