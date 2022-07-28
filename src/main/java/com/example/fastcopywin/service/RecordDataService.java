@@ -1,5 +1,8 @@
 package com.example.fastcopywin.service;
 
+import com.example.fastcopywin.model.RecordData;
+import com.example.fastcopywin.repository.RecordDataRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -17,9 +20,19 @@ import java.util.logging.Logger;
 public class RecordDataService {
   private static Logger log = Logger.getLogger(RecordDataService.class.toString());
 
+  @Autowired
+  RecordDataRepository recordDataRepository;
+
+  @Autowired
+
   private String fileName = "fast_copy_win_data_sundayli.txt";
 
   public List<String> getRecordDataTopN(int n) {
+
+    RecordData recordData = new RecordData();
+    recordData.setId(1);
+    recordData.setData("xxx");
+    recordDataRepository.save(recordData);
     String data = getAllDataByfilePath(getCurrentRunningPath());
     List<String> dataList = new ArrayList<>();
     String[] arr = data.split("___");
