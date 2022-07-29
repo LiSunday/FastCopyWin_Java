@@ -38,7 +38,7 @@ public class MainApplication extends Application {
 
     // 主界面
     FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("main-view.fxml"));
-    Scene scene = new Scene(fxmlLoader.load(), 200, 600);
+    Scene scene = new Scene(fxmlLoader.load(), 250, 600);
     stage.setTitle("FastCopyWin");
 
     stage.setScene(scene);
