@@ -21,6 +21,9 @@ public class RecordDataService {
   public void saveRecord(String data) {
     RecordData recordData = new RecordData();
     recordData.setData(data);
+    if (recordDataRepository.count() >= 500) {
+      recordDataRepository.deleteLastRecord();
+    }
     recordDataRepository.save(recordData);
   }
 }
