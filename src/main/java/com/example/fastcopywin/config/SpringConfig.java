@@ -7,5 +7,6 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @ComponentScan(value = "com.example.fastcopywin.service")
+@Import(DatabaseConfig.class)
 public class SpringConfig {
 }

@@ -44,6 +44,7 @@ bin/
 ### ide ###
 .idea
 
-### project runing data
-*.txt
+### project runing data ###
 META-INF/
+### database ###
+data
