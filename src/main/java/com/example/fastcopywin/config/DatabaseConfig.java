@@ -3,6 +3,7 @@ package com.example.fastcopywin.config;
 import com.example.fastcopywin.model.RecordData;
 import org.h2.jdbcx.JdbcDataSource;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
@@ -10,18 +11,14 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
-import org.springframework.jdbc.datasource.init.DatabasePopulator;
-import org.springframework.jdbc.datasource.init.ScriptException;
 import org.springframework.transaction.TransactionManager;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.sql.DataSource;
 
 @Configuration
+@ComponentScan(value = "com.example.fastcopywin.repository")
 @EnableJdbcRepositories({"com.example.fastcopywin.repository"})
 public class DatabaseConfig extends AbstractJdbcConfiguration {
 

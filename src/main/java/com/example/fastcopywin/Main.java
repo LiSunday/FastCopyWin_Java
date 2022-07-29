@@ -7,7 +7,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 public class Main {
   public static final ApplicationContext SPRING_CONTEXT = new AnnotationConfigApplicationContext(SpringConfig.class);
-  public static void main(String[] args) throws Exception {
+  public static void main(String[] args) {
     Application.launch(MainApplication.class);
   }
 

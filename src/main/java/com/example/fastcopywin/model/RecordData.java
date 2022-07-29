@@ -1,14 +1,17 @@
 package com.example.fastcopywin.model;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-@Table("record_data")
+@Table("RECORD_DATA")
 public class RecordData {
+
+  @Id
   Integer id;
   String data;
 
   public static String getCreateTableSql() {
-    return "create table record_data\n"
+    return "create table if not exists record_data\n"
       + "(\n"
       + "id int primary key auto_increment,\n"
       + "data TEXT\n"
