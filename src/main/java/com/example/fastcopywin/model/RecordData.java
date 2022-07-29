@@ -3,19 +3,20 @@ package com.example.fastcopywin.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-@Table("RECORD_DATA")
+@Table(RecordData.TABLE_NAME)
 public class RecordData {
+  public static final String TABLE_NAME = "RECORD_DATA";
 
   @Id
   Integer id;
   String data;
 
   public static String getCreateTableSql() {
-    return "create table if not exists record_data\n"
-      + "(\n"
-      + "id int primary key auto_increment,\n"
-      + "data TEXT\n"
-      + ")\n";
+    return "create table if not exists " + TABLE_NAME
+      + "("
+      + "id int primary key auto_increment, "
+      + "data TEXT "
+      + ")";
   }
 
   public Integer getId() {

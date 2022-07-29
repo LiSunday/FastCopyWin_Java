@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface RecordDataRepository extends CrudRepository<RecordData, Integer> {
 
-  @Query("select * from RECORD_DATA order by id desc limit :n")
+  @Query("select * from " + RecordData.TABLE_NAME + " order by id desc limit :n")
   List<RecordData> getRecordDataTopN(@Param("n") int n);
 }
