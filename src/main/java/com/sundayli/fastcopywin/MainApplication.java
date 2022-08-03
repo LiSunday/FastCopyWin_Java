@@ -1,9 +1,10 @@
-package com.example.fastcopywin;
+package com.sundayli.fastcopywin;
 
-import com.example.fastcopywin.controller.MainController;
-import com.example.fastcopywin.listener.KeyBoardGlobalListener;
-import com.example.fastcopywin.listener.MouseInputGlobalListener;
-import com.example.fastcopywin.service.RecordDataService;
+import com.sundayli.fastcopywin.controller.MainController;
+import com.sundayli.fastcopywin.listener.KeyBoardGlobalListener;
+import com.sundayli.fastcopywin.listener.MouseInputGlobalListener;
+import com.sundayli.fastcopywin.model.RecordData;
+import com.sundayli.fastcopywin.service.RecordDataService;
 import com.github.kwhat.jnativehook.GlobalScreen;
 import com.github.kwhat.jnativehook.NativeHookException;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
@@ -18,7 +19,6 @@ import javafx.scene.input.DataFormat;
 import javafx.scene.input.MouseButton;
 import javafx.scene.robot.Robot;
 import javafx.stage.Stage;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -27,7 +27,7 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 public class MainApplication extends Application {
-  private static Logger log = Logger.getLogger(MainApplication.class.toString());
+  private static final Logger log = Logger.getLogger(MainApplication.class.toString());
 
   @Override
   public void start(Stage stage) throws IOException {
@@ -82,15 +82,24 @@ public class MainApplication extends Application {
     }));
     // 注册键盘回调事件 将复制的东西持久化保存一下
     keyBoardGlobalListener.registerCustomKeyAfterReturnEvent(29, NativeKeyEvent.VC_C, () -> Platform.runLater(() -> {
-      String data = clipboard.getString();
-      if (StringUtils.isNotBlank(data)) {
-        Main.SPRING_CONTEXT.getBean(RecordDataService.class).saveRecord(data);
+      RecordData recordData = null;
+      if (clipboard.hasString()) {
+        String string = clipboard.getString();
+        recordData = new RecordData();
+        recordData.setData(string);
+        recordData.setDataFormat(DataFormat.PLAIN_TEXT.toString());
+      } else if (clipboard.hasImage()) {
+        Image image = clipboard.getImage();
+        System.out.println(image);
+      }
+      if (recordData != null) {
+        Main.SPRING_CONTEXT.getBean(RecordDataService.class).saveRecord(recordData);
       }
     }));
     // 注册键盘回调事件 将选中的内容放入系统剪切板
     keyBoardGlobalListener.registerCustomKeyAfterReturnEvent(NativeKeyEvent.VC_ENTER, () -> Platform.runLater(() -> {
       if (controller.dataList.isFocused()) {
-        String data = controller.dataList.getFocusModel().getFocusedItem();
+        RecordData data = controller.dataList.getFocusModel().getFocusedItem();
         Map<DataFormat, Object> dataMap = new HashMap<>();
         dataMap.put(DataFormat.PLAIN_TEXT, data);
         clipboard.setContent(dataMap);

@@ -1,4 +1,4 @@
-package com.example.fastcopywin.model;
+package com.sundayli.fastcopywin.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
@@ -9,13 +9,17 @@ public class RecordData {
 
   @Id
   Integer id;
+
   String data;
+
+  String dataFormat;
 
   public static String getCreateTableSql() {
     return "create table if not exists " + TABLE_NAME
       + "("
       + "id int primary key auto_increment, "
-      + "data TEXT "
+      + "data TEXT, "
+      + "data_format TEXT"
       + ")";
   }
 
@@ -33,5 +37,21 @@ public class RecordData {
 
   public void setData(String data) {
     this.data = data;
+  }
+
+  public String getDataFormat() {
+    return dataFormat;
+  }
+
+  public void setDataFormat(String dataFormat) {
+    this.dataFormat = dataFormat;
+  }
+
+  @Override
+  public String toString() {
+    if (dataFormat.contains("text")) {
+      return data;
+    }
+    return super.toString();
   }
 }

@@ -1,1 +1,3 @@
 rootProject.name = "FastCopyWin"
+include 'system-support'
+

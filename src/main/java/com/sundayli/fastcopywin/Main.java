@@ -1,6 +1,6 @@
-package com.example.fastcopywin;
+package com.sundayli.fastcopywin;
 
-import com.example.fastcopywin.config.SpringConfig;
+import com.sundayli.fastcopywin.config.SpringConfig;
 import javafx.application.Application;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
