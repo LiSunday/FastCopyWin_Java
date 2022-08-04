@@ -1,4 +1,4 @@
-package com.example.fastcopywin.listener;
+package com.sundayli.fastcopywin.listener;
 
 import com.github.kwhat.jnativehook.GlobalScreen;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;

@@ -1,4 +1,4 @@
-module com.example.fastcopywin {
+module com.sundayli.fastcopywin {
   requires java.sql;
   requires java.naming;
   requires java.base;
@@ -30,19 +30,19 @@ module com.example.fastcopywin {
 
   requires com.h2database;
 
-  exports com.example.fastcopywin;
-  exports com.example.fastcopywin.controller;
-  exports com.example.fastcopywin.config;
-  exports com.example.fastcopywin.service;
-  exports com.example.fastcopywin.listener;
-  exports com.example.fastcopywin.repository;
-  exports com.example.fastcopywin.model;
+  exports com.sundayli.fastcopywin;
+  exports com.sundayli.fastcopywin.controller;
+  exports com.sundayli.fastcopywin.config;
+  exports com.sundayli.fastcopywin.service;
+  exports com.sundayli.fastcopywin.listener;
+  exports com.sundayli.fastcopywin.repository;
+  exports com.sundayli.fastcopywin.model;
 
-  opens com.example.fastcopywin to javafx.fxml;
-  opens com.example.fastcopywin.controller to javafx.fxml;
-  opens com.example.fastcopywin.config to java.base, spring.beans, spring.context, spring.core, spring.jdbc, spring.tx, spring.aop, spring.expression, spring.jcl, spring.data.relational, spring.data.jdbc, spring.data.commons;
-  opens com.example.fastcopywin.service to spring.core;
-  opens com.example.fastcopywin.repository to spring.beans, spring.context, spring.core, spring.jdbc, spring.tx, spring.aop, spring.expression, spring.jcl, spring.data.relational, spring.data.jdbc, spring.data.commons;
-  opens com.example.fastcopywin.model to spring.beans, spring.context, spring.core, spring.jdbc, spring.tx, spring.aop, spring.expression, spring.jcl, spring.data.relational, spring.data.jdbc, spring.data.commons;
+  opens com.sundayli.fastcopywin to javafx.fxml;
+  opens com.sundayli.fastcopywin.controller to javafx.fxml;
+  opens com.sundayli.fastcopywin.config to java.base, spring.beans, spring.context, spring.core, spring.jdbc, spring.tx, spring.aop, spring.expression, spring.jcl, spring.data.relational, spring.data.jdbc, spring.data.commons;
+  opens com.sundayli.fastcopywin.service to javafx.fxml, spring.core;
+  opens com.sundayli.fastcopywin.repository to spring.beans, spring.context, spring.core, spring.jdbc, spring.tx, spring.aop, spring.expression, spring.jcl, spring.data.relational, spring.data.jdbc, spring.data.commons;
+  opens com.sundayli.fastcopywin.model to javafx.fxml, spring.beans, spring.context, spring.core, spring.jdbc, spring.tx, spring.aop, spring.expression, spring.jcl, spring.data.relational, spring.data.jdbc, spring.data.commons;
 
 }

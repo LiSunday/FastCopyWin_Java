@@ -1,4 +1,4 @@
-package com.example.fastcopywin.listener;
+package com.sundayli.fastcopywin.listener;
 
 @FunctionalInterface
 public interface ListenerOperation {

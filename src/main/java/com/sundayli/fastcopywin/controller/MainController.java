@@ -1,4 +1,4 @@
-package com.example.fastcopywin.controller;
+package com.sundayli.fastcopywin.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,7 +10,7 @@ import java.util.ResourceBundle;
 public class MainController implements Initializable {
 
   @FXML
-  public ListView<String> dataList;
+  public ListView<Object> dataList;
 
 
   @Override

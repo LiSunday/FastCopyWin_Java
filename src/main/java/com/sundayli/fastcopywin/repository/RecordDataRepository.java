@@ -1,6 +1,6 @@
-package com.example.fastcopywin.repository;
+package com.sundayli.fastcopywin.repository;
 
-import com.example.fastcopywin.model.RecordData;
+import com.sundayli.fastcopywin.model.RecordData;
 import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;

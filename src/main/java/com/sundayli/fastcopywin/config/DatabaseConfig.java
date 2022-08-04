@@ -1,6 +1,6 @@
-package com.example.fastcopywin.config;
+package com.sundayli.fastcopywin.config;
 
-import com.example.fastcopywin.model.RecordData;
+import com.sundayli.fastcopywin.model.RecordData;
 import org.h2.jdbcx.JdbcDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,8 +18,8 @@ import java.sql.Statement;
 import javax.sql.DataSource;
 
 @Configuration
-@ComponentScan(value = "com.example.fastcopywin.repository")
-@EnableJdbcRepositories({"com.example.fastcopywin.repository"})
+@ComponentScan(value = "com.sundayli.fastcopywin.repository")
+@EnableJdbcRepositories({"com.sundayli.fastcopywin.repository"})
 public class DatabaseConfig extends AbstractJdbcConfiguration {
 
   @Bean

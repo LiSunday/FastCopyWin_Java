@@ -6,8 +6,8 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
-group 'com.example'
-version '0.1.1-RELEASE'
+group 'com.sundayli'
+version '0.1.2-RELEASE'
 
 repositories {
     maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
@@ -28,8 +28,8 @@ tasks.withType(JavaCompile) {
 }
 
 application {
-    mainModule = 'com.example.fastcopywin'
-    mainClass = 'com.example.fastcopywin.Main'
+    mainModule = 'com.sundayli.fastcopywin'
+    mainClass = 'com.sundayli.fastcopywin.Main'
 }
 
 javafx {
@@ -90,6 +90,6 @@ jar {
     metadataCharset 'utf-8'
 
     manifest {
-        attributes("Main-Class": "com.example.fastcopywin.Main", "Implementation-Title": "Gradle")
+        attributes("Main-Class": "com.sundayli.fastcopywin.Main", "Implementation-Title": "Gradle")
     }
 }
