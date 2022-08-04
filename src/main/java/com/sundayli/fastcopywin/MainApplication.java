@@ -75,6 +75,11 @@ public class MainApplication extends Application {
           dataList.add(recordData.getData());
         } else if (recordData.getDataFormat() == DataFormatEnum.IMAGE) {
           ImageView imageView = new ImageView(ImageUtils.toImage(recordData.getData()));
+          double w = imageView.getImage().getWidth();
+          double h = imageView.getImage().getHeight();
+          // TODO: 2022/8/4 sundayli 后面抽成设置 这里用 40 是把显示区域做个缩放 图片太大不美观 也不方便
+          imageView.setFitHeight(40);
+          imageView.setFitWidth(w / h * 40);
           dataList.add(imageView);
         }
       }
