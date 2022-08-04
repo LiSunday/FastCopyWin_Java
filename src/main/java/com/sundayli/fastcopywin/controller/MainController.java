@@ -1,6 +1,5 @@
 package com.sundayli.fastcopywin.controller;
 
-import com.sundayli.fastcopywin.model.RecordData;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
@@ -11,7 +10,7 @@ import java.util.ResourceBundle;
 public class MainController implements Initializable {
 
   @FXML
-  public ListView<RecordData> dataList;
+  public ListView<Object> dataList;
 
 
   @Override
