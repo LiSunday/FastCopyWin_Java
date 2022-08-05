@@ -2,10 +2,9 @@ package com.sundayli.fastcopywin.service;
 
 import com.sundayli.fastcopywin.model.RecordData;
 import com.sundayli.fastcopywin.repository.RecordDataRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class RecordDataService {
