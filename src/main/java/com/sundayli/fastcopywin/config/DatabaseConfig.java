@@ -1,6 +1,8 @@
 package com.sundayli.fastcopywin.config;
 
 import com.sundayli.fastcopywin.model.RecordData;
+import java.sql.Statement;
+import javax.sql.DataSource;
 import org.h2.jdbcx.JdbcDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -12,10 +14,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.transaction.TransactionManager;
-
-import java.sql.Statement;
-
-import javax.sql.DataSource;
 
 @Configuration
 @ComponentScan(value = "com.sundayli.fastcopywin.repository")
