@@ -5,11 +5,13 @@ import com.github.kwhat.jnativehook.NativeHookException;
 import com.sundayli.fastcopywin.config.SpringConfig;
 import java.util.logging.Logger;
 import javafx.application.Application;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Main {
   public static final ApplicationContext CONTEXT = new AnnotationConfigApplicationContext(SpringConfig.class);
+  public final static ThreadLocal<Pair<Double, Double>> RESOURCE = new ThreadLocal<>();
   private static final Logger log = Logger.getLogger(Main.class.toString());
 
   static {

@@ -41,10 +41,6 @@ public class KeyBoardGlobalListener implements NativeKeyListener {
     currentKeyCode = -1;
   }
 
-  public void registerCopyAfterReturnEvent(ListenerOperation listenerOperation) {
-    registerCustomKeyAfterReturnEvent(29, 46, listenerOperation);
-  }
-
   public void registerCustomKeyAfterReturnEvent(int preKeyCode, int postKeyCode, ListenerOperation listenerOperation) {
     keyListenerAfterReturnEventMap.computeIfAbsent(String.format("%d_%d", preKeyCode, postKeyCode), k -> new ArrayList<>()).add(listenerOperation);
   }

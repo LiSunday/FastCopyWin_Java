@@ -20,18 +20,22 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.robot.Robot;
 import javafx.stage.Stage;
+import org.apache.commons.lang3.tuple.Pair;
 
 public class MainApplication extends Application {
 
   private final List<BaseController> controllers = Collections.synchronizedList(new ArrayList<>());
+  private Robot robot = null;
 
   @Override
   public void start(Stage stage) throws IOException {
     // 设置隐藏窗口后 不终止 fx 线程
     Platform.setImplicitExit(false);
+    robot = new Robot();
 
     FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("main-view.fxml"));
     Scene scene = new Scene(fxmlLoader.load(), 250, 600);
@@ -46,7 +50,7 @@ public class MainApplication extends Application {
   }
 
   private void enableListener(Scene scene, Stage stage) {
-    keyBoardListener(scene, stage);
+    keyBoardListener(stage);
     mouseListener(scene, stage);
     clipBoardListener();
   }
@@ -78,14 +82,16 @@ public class MainApplication extends Application {
       if (scene.getRoot().isVisible() && !stage.isFocused()) {
         stage.hide();
       }
+      if (!stage.isShowing()) {
+        Main.RESOURCE.set(Pair.of(robot.getMouseX(), robot.getMouseY()));
+      }
     }));
   }
 
-  private void keyBoardListener(Scene scene, Stage stage) {
+  private void keyBoardListener(Stage stage) {
     KeyBoardGlobalListener listener = KeyBoardGlobalListener.getSingleInstance();
-    Robot robot = new Robot();
 
-    listener.registerCustomKeyAfterReturnEvent(29, NativeKeyEvent.VC_M, () -> Platform.runLater(() -> {
+    listener.registerCustomKeyAfterReturnEvent(NativeKeyEvent.VC_CONTROL, NativeKeyEvent.VC_M, () -> Platform.runLater(() -> {
       double x = robot.getMouseX();
       double y = robot.getMouseY();
       stage.setX(robot.getMouseX());
@@ -107,6 +113,19 @@ public class MainApplication extends Application {
         // 通知各个 controller 为 回车事件做出相应动作
         controllers.forEach(controller -> controller.triggerAction(ActionTypeEnum.ENTER));
         stage.hide();
+
+        // 对数据进行回填
+        Pair<Double, Double> pair = Main.RESOURCE.get();
+        if (pair == null) return;
+        double x = robot.getMouseX();
+        double y = robot.getMouseY();
+        robot.mouseMove(pair.getLeft(), pair.getRight());
+        robot.mouseClick(MouseButton.PRIMARY);
+        robot.keyPress(KeyCode.ALT);
+        robot.keyPress(KeyCode.V);
+        robot.keyRelease(KeyCode.V);
+        robot.keyRelease(KeyCode.ALT);
+        robot.mouseMove(x, y);
       }
     }));
   }
