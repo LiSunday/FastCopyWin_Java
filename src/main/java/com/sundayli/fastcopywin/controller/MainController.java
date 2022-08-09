@@ -56,10 +56,21 @@ public class MainController extends BaseController implements Initializable {
       }
     });
     addAction(ActionTypeEnum.SHOW, dataArray -> dataList.getSelectionModel().selectFirst());
-    addAction(ActionTypeEnum.UPDATE, dataArray -> Optional.ofNullable(recordDataToObj((RecordData) dataArray[0])).ifPresent(data -> observableList.add(0, data)));
+    addAction(ActionTypeEnum.UPDATE, dataArray -> {
+      Object obj = recordDataToObj((RecordData) dataArray[0]);
+      if (obj != null) {
+        observableList.add(0, obj);
+        if (observableList.size() > 10) {
+          observableList.remove(observableList.size() - 1);
+        }
+      }
+    });
   }
 
   private Object recordDataToObj(RecordData recordData) {
+    if (recordData == null) {
+      return null;
+    }
     if (recordData.getDataFormat() == DataFormatEnum.PLAIN_TEXT) {
       return recordData.getData();
     } else if (recordData.getDataFormat() == DataFormatEnum.IMAGE) {

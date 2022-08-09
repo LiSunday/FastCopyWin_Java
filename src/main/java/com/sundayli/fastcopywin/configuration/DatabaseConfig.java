@@ -1,4 +1,4 @@
-package com.sundayli.fastcopywin.config;
+package com.sundayli.fastcopywin.configuration;
 
 import com.sundayli.fastcopywin.model.RecordData;
 import java.sql.Statement;

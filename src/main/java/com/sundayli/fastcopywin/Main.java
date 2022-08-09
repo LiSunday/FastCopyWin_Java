@@ -2,7 +2,7 @@ package com.sundayli.fastcopywin;
 
 import com.github.kwhat.jnativehook.GlobalScreen;
 import com.github.kwhat.jnativehook.NativeHookException;
-import com.sundayli.fastcopywin.config.SpringConfig;
+import com.sundayli.fastcopywin.configuration.SpringConfig;
 import java.util.logging.Logger;
 import javafx.application.Application;
 import org.apache.commons.lang3.tuple.Pair;

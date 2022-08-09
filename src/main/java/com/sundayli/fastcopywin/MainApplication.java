@@ -69,7 +69,7 @@ public class MainApplication extends Application {
         recordData.setDataFormat(DataFormatEnum.PLAIN_TEXT);
       }
       if (recordData != null) {
-        Main.CONTEXT.getBean(RecordDataService.class).saveRecord(recordData);
+        Main.CONTEXT.getBean(RecordDataService.class).saveRecordAsync(recordData);
         RecordData data = recordData;
         Platform.runLater(() -> controllers.forEach(controller -> controller.triggerAction(ActionTypeEnum.UPDATE, data)));
       }
